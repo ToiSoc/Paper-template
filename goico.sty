@@ -1,0 +1,457 @@
+%=========================================================================%
+%| %%—————————————————————————————————————————————————————————————————%% |%
+%| %                 author:GoicO | SoiYcn                             % |%
+%| %                 datetime:2024/3/20 15:00                          % |%
+%| %                 email:17802018010@163.com                         % |%
+%| %%—————————————————————————————————————————————————————————————————%% |%
+%=========================================================================%
+
+
+
+
+\usepackage[
+    left=3.17cm,   
+    right=3.17cm,  
+    top=2.54cm,   
+    bottom=2.54cm, 
+]{geometry}
+\usepackage{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{amsfonts}
+\usepackage{chemformula}
+\usepackage[colorlinks, linkcolor=black, anchorcolor=black, citecolor=green]{hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb, appendix, bm, graphicx, mathrsfs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{abstract}
+\usepackage{datetime}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{wrapfig}
+\usepackage{xeCJK}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{enumitem}
+\usepackage{fmtcount}
+\usepackage{bm}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{tocloft}
+\usepackage{setspace}
+\usepackage[style=gb7714-2015, backend=biber, sorting=nty]{biblatex}
+\usepackage{xpatch}  
+\usepackage{tocloft} % 更细致的控制页码
+
+
+% 假设中文文献的 language 字段为 zh，英文文献的 language 字段为 en  
+% 自定义排序规则，将中文文献排在前面  
+\DeclareSourcemap{  
+  \maps[datatype=bibtex]{  
+    \map{
+      \step[fieldsource=language, match=zh, final]  
+      \step[fieldset=presort, fieldvalue=1]  
+    }  
+    \map{  
+      \step[fieldsource=language, match=en, final]  
+      \step[fieldset=presort, fieldvalue=2]  
+    }  
+  }  
+}  
+
+% 使用 presort 字段进行排序  
+\DeclareSortingTemplate{goicodefine}{  
+  \sort{  
+    \field{presort}  
+  }  
+  \sort{  
+    \field{sortkey}  
+  }  
+  \sort{  
+    \field{sortname}  
+    \field{author}  
+    \field{editor}  
+    \field{translator}  
+  }  
+  \sort{  
+    \field{sorttitle}  
+    \field{title}  
+  }  
+  \sort{  
+    \field{sortyear}  
+    \field{year}  
+  }  
+  \sort{  
+    \field{volume}  
+    \literal{0}  
+  }  
+}  
+  
+% 应用自定义排序方案  
+\ExecuteBibliographyOptions{sorting=goicodefine}  
+
+\addbibresource{TJJM-GoicO.bib}
+
+
+\definecolor{MSBlue}{rgb}{.59,.147,.183}        %棕红色
+\definecolor{niceblue}{RGB}{189,93,42}          
+\definecolor{cookblue}{RGB}{22,122,104}         
+\definecolor{lightgray}{RGB}{119,136,153}       % 亮灰色
+\definecolor{lightpink}{RGB}{197,224,179}       % 亮灰色
+
+\tcbuselibrary{listings}
+
+
+% 定义不同模块所用颜色
+\colorlet{keywordcolor}{green!40!black}
+\colorlet{commentcolor}{purple!40!black}
+\colorlet{stringcolor}{orange}
+\colorlet{identifiercolor}{blue}
+\colorlet{exceptioncolour}{pink!60!black}
+\colorlet{magicmethodcolour}{violet}
+
+% 设置python代码风格
+\lstdefinestyle{pythonstyle}{
+    language=python,
+    xleftmargin=\dimexpr\fboxsep+\fboxrule\relax,       % 考虑到内边距和边框线宽度
+    xrightmargin=\dimexpr\fboxsep+\fboxrule\relax,      % 同上
+    tabsize=4, % 设置indent缩进为4个空格
+    basicstyle=\ttfamily\small, % 设置字号和字体
+    breaklines=true, % 当代码过长时，自动换行
+    frame=L, % 设置代码显示边框
+    keywordstyle=\bfseries\color{keywordcolor},
+    commentstyle=\itshape\color{commentcolor},
+    stringstyle=\color{stringcolor},
+    emph={and, break, continue, yield, del,% 
+                    except, exec, finally, for, from, global, import, in,%
+                    lambda, not, or, pass, raise, return, try, while, assert, with, as},
+    emphstyle=\bfseries\color{identifiercolor},
+    emph={[2]True, False, None},
+    emphstyle=[2]\color{identifiercolor},
+    emph={[3]Exception, NameError, IndexError, SyntaxError, TypeError, ValueError, OverflowError, ZeroDivisionError},
+    emphstyle=[3]\color{exceptioncolour},
+    emph={[4]ode, fsolve, sqrt, exp, sin, cos, arctan, arctan2, arccos, pi,  array, norm, solve, dot, arange, isscalar, max, sum,%
+                    flatten, shape, reshape, find, any, all, abs, plot, linspace, legend, quad, polyval, polyfit, hstack, concatenate, vstack,%
+                    column_stack, empty, zeros, ones, rand, vander, grid, pcolor, eig, eigs, eigvals, svd, qr, tan, det, logspace, roll, min,% 
+                    ean, cumsum, cumprod, diff, vectorize, lstsq, cla, eye, xlabel, ylabel, squeeze},
+    emphstyle=[4]\color{identifiercolor},
+    emph={[5]__init__, __add__, __mul__, __div__, __sub__, __call__, __getitem__, __setitem__, __neg__, __eq__, __ne__,%
+                    __gt__, __lt__, __ge__, __le__, __nonzero__, __rmul__, __radd__, __repr__, __str__, __get__, __truediv__,%
+                    __pow__, __name__, __future__, __all__},
+    emphstyle=[5]\color{magicmethodcolour},
+    breakatwhitespace=false,
+    showstringspaces=false,
+}
+
+% 定义listing包中的环境
+\lstnewenvironment{python}[1][]{\lstset{style=pythonstyle}}{}
+% 定义行内代码
+% 使用方法 xxx \pyinline{python code here} xxx
+\newcommand*{\pyinline}{\lstinline[style=pythonstyle]}
+
+
+
+% 定义C++代码风格
+% 使用方法 \begin{cpp} ... \end{cpp}
+\lstdefinestyle{cppstyle}{
+    language=C++,
+    xleftmargin=\dimexpr\fboxsep+\fboxrule\relax,       % 考虑到内边距和边框线宽度
+    xrightmargin=\dimexpr\fboxsep+\fboxrule\relax,      % 同上
+    tabsize=4,
+    basicstyle=\ttfamily\small, % 设置字号和字体
+    breaklines=true, % 当代码过长时，自动换行
+    frame=L, % 设置代码显示边框
+    keywordstyle=\bfseries\color{keywordcolor},
+    commentstyle=\itshape\color{commentcolor},
+    stringstyle=\color{stringcolor},
+    identifierstyle=\color{blue},
+    breakatwhitespace=false,
+    showstringspaces=false,
+}
+\lstnewenvironment{cpp}[1][]{\lstset{style=sysucpp}}{}
+
+
+
+% \hypersetup{
+%     colorlinks=true,                            % 设置链接文本颜色而不是框框
+%     linktoc=all,                                % 设置所有目录页的链接颜色
+%     linkcolor=MSBlue,                           % 目录页链接文本的颜色
+%     % linktocpage                               % 仅链接到页码而不是整个条目
+% }
+
+
+\newcommand{\makepagenum}{
+    \pagestyle{fancy}
+    \lhead{}
+    \chead{}
+    \rhead{}
+    %\lfoot{}
+    \cfoot{第\thepage 页}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+    \pagenumbering{arabic} 
+    \setcounter{page}{1} 
+}
+
+
+\newcommand{\makepageempty}{
+    \pagestyle{fancy}
+    \lhead{}
+    \chead{}
+    \rhead{}
+    \lfoot{}
+    \cfoot[]{}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+
+
+
+\newcommand{\makecontent}{
+    \makepageempty
+    \tocloftpagestyle{empty}
+    \clearpage
+    \newpage
+    \begin{center}
+        \tableofcontents % 插入全文目录
+    \end{center}
+    \clearpage
+    \newpage
+    \begin{center}
+        \listoffigures
+    \end{center}
+    \clearpage
+    \newpage
+    \begin{center}
+        \listoftables
+    \end{center}
+}
+
+% 相关信息宏定义
+\newcommand\cbooktitle[1]{\def\@cbooktitle{#1}}     % 比赛名称
+\newcommand\ebooktitle[1]{\def\@ebooktitle{#1}}
+
+\newcommand\ctitle[1]{\def\@ctitle{#1}}             % 主标题
+\newcommand\etitle[1]{\def\@etitle{#1}}
+
+\newcommand\covertitlefirst[1]{\def\@covertitlefirst{#1}}       
+\newcommand\covertitlesecond[1]{\def\@covertitlesecond{#1}}
+
+% 这两个在原来的info.tex里面定义，用于英文标题过长的时候的换行情况
+\newcommand\etitlefirst[1]{\def\@etitlefirst{#1}}
+\newcommand\etitlesecond[1]{\def\@etitlesecond{#1}}
+\newcommand\eabstracttitlefirst[1]{\def\@eabstracttitlefirst{#1}} 
+
+% 解决英文摘要页标题过长问题
+\newcommand\eabstracttitlesecond[1]{\def\@eabstracttitlesecond{#1}}
+\newcommand\cauthor[1]{\def\@cauthor{#1}} % 默认中文名为封面作者名字
+\newcommand\eauthor[1]{\def\@eauthor{#1}}
+\newcommand\studentid[1]{\def\@studentid{#1}}
+\newcommand\cschool[1]{\def\@cschool{#1}}
+\newcommand\cmajor[1]{\def\@cmajor{#1}}
+\newcommand\emajor[1]{\def\@emajor{#1}}
+\newcommand\cmentor[1]{\def\@cmentor{#1}}
+\newcommand\ementor[1]{\def\@ementor{#1}}
+\newcommand\cteacher[1]{\def\@cteacher{#1}}
+\newcommand\eteacher[1]{\def\@eteacher{#1}}
+
+\newcommand{\makecoverpage}{
+    \begin{titlepage}%使页码跳过这页
+        \leftline{\zihao{4}\syheiti{\textcolor{red}{参赛队号:}\fzkaiti{\textcolor{lightgray}{（参赛队无须填写，参赛队号由大赛官网自动生成）}}}}
+        \centering
+        \quad\\[5cm]
+    
+        \fzxbs\zihao{-2}{\@cbooktitle} %标题3号加粗
+        \vspace{1ex}
+        \makebox[7em][s]{\fzxbs\zihao{2}{参赛作品}}
+    
+        \quad\\[5cm]
+        
+        % % 信息
+        \begin{center}{\fzxbs\Large
+            \makebox[6em][s]{\fzkaiti\zihao{-2}{参赛学校}}: \underline{\makebox[17em][c]{\fzkaiti\zihao{-2}{\@cschool}}}\\
+            \vspace{2.0ex}
+            \makebox[6em][s]{\fzkaiti\zihao{-2}{论文题目}}: \underline{\makebox[17em][c]{\fzkaiti\zihao{-3}{\@ctitle}}}\\
+            \vspace{2.0ex}
+            \makebox[6em][s]{\fzkaiti\zihao{-2}{参赛队员}}: \underline{\makebox[17em][c]{\fzkaiti\zihao{-2}{\@cauthor}}}\\
+            \vspace{2.0ex}
+            \makebox[6em][s]{\fzkaiti\zihao{-2}{指导老师}}: \underline{\makebox[17em][c]{\fzkaiti\zihao{-2}{\@cteacher}}}\\
+            \vspace{6em}
+        }
+        \end{center}
+    \end{titlepage}
+}
+
+\newcommand{\maketxtstart}{
+    \newpage
+    \makepagenum
+    \begin{center}
+        {\fzxbs\zihao{3}{\@ctitle}}
+    \end{center}
+    \songti\zihao{-4}
+}
+
+
+\newcommand{\makeabstractstart}{
+    \centering
+    \fzxbs\zihao{3}{\@ctitle}
+    \phantomsection
+}
+
+
+\setCJKfamilyfont{fangzhengxiaobiaosong}[Path={fonts/}]{fzxbs.ttf}
+\setCJKfamilyfont{heiti}[Path={fonts/}]{SourceHanSansCN-Regular.otf}
+\setCJKfamilyfont{heitibold}[Path={fonts/}]{SourceHanSansCN-Bold.otf}
+\setCJKfamilyfont{fzkaiti}[Path={fonts/}]{fzkaiti.ttf}
+\setCJKfamilyfont{fandolfang-regular}[Path={fonts/}]{FandolFang-Regular.otf}
+
+\newcommand{\fzxbs}{\CJKfamily{fangzhengxiaobiaosong}}          %方正小标宋
+\newcommand{\syheiti}{\CJKfamily{heiti}}                        %思源黑体
+\newcommand{\syheitibold}{\CJKfamily{heitibold}}                %黑体加粗
+\newcommand{\fzkaiti}{\CJKfamily{fzkaiti}}                      %方正楷体
+\newcommand{\fandolfangre}{\CJKfamily{fandolfang-regular}}      %方正仿宋
+
+
+\newcommand{\keyword}{\syheitibold\zihao{-4}}
+\newcommand{\abstractcontent}{\songti\zihao{-4}}
+
+
+\renewcommand{\abstractname}{\syheitibold\zihao{4}{摘要}}           % 设置ToC标题字体
+\renewcommand{\cfttoctitlefont}{\syheitibold\zihao{4}}              % 设置ToC标题字体
+\renewcommand{\cftsecpagefont}{\syheitibold\zihao{-4}}              % 设置章节页码字体
+
+% \renewcommand{\cftsecfont}{\songti\zihao{-4}}                     % 不加粗
+\renewcommand{\cftdot}{.}
+\renewcommand{\cftsecdotsep}{\cftdotsep}
+
+\renewcommand{\listfigurename}{插图目录}                            % 更新插图名称
+\renewcommand{\listtablename}{表格目录}                             % 更新表格目录
+
+\renewcommand{\cftloftitlefont}{\syheitibold\zihao{4}}              % 设置LoF标题字体
+\renewcommand{\cftlottitlefont}{\syheitibold\zihao{4}}              % 设置LoT标题字体
+\renewcommand{\cftfigfont}{\songti\zihao{-4}}                       % 设置LoF条目字体
+\renewcommand{\cftfigpagefont}{\songti\zihao{-4}}                   % 设置LoF页码字体
+\renewcommand{\cfttabfont}{\songti\zihao{-4}}                       % 设置LoT条目字体
+\renewcommand{\cfttabpagefont}{\songti\zihao{-4}}                   % 设置LoT页码字体
+
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\cftfigfont}{\songti\zihao{-4}\figurename~}
+\renewcommand{\cfttabfont}{\songti\zihao{-4}\tablename~}
+\renewcommand{\cftfigpagefont}{~}
+\renewcommand{\cfttabpagefont}{~}
+
+
+% 调整插图目录中图编号与标题的距离
+\setlength{\cftbeforefigskip}{0.4em}                % 调整figure条目之间的垂直距离
+\setlength{\cftfigindent}{0pt}                      % 减少图编号与标题的水平距离
+\setlength{\cftfignumwidth}{2em}                    % 根据实际需求调整图编号的宽度
+\renewcommand{\cftfigpresnum}{\hspace{0pt}}         % 减少图编号前的空白
+\renewcommand{\cftfigafterpnum}{\hspace{0em}}       % 减少图编号后标题前的空白
+
+
+
+% 调整表格目录
+\setlength{\cftbeforetabskip}{0.4em}                % 调整table条目之间的垂直距离
+\setlength{\cfttabindent}{0pt}                      % 减少表格编号与标题的水平距离
+\setlength{\cfttabnumwidth}{2em}                    % 根据实际需求调整表格编号的宽度
+\renewcommand{\cfttabpresnum}{\hspace{0pt}}         % 减少表格编号前的空白
+\renewcommand{\cfttabafterpnum}{\hspace{0pt}}       % 减少表格编号后标题前的空白
+
+\renewcommand{\cftsecfont}{\syheiti\zihao{-4}}      % 设置section级别的字体大小
+\renewcommand{\cftsubsecfont}{\songti\zihao{-4}}    % 设置subsection级别的字体大小
+\renewcommand{\cftsubsubsecfont}{\songti\zihao{-4}}  % 设置subsubsection级别的字体大小
+
+
+% \setlength{\cftbeforesecskip}{0.6em}          % 调整section与上一条目之间的垂直距离
+\setlength{\cftbeforesubsecskip}{0.4em}         % 调整subsection与上一条目之间的垂直距离
+\setlength{\cftbeforesubsubsecskip}{0.4em}      % 调整subsubsection与上一条目之间的垂直距离
+
+\setlength{\cftsecindent}{0em}                  % 调整section标题相对于页边距的水平距离
+\setlength{\cftsubsecindent}{1.5em}             % 调整subsection标题相对于section标题的水平距离
+\setlength{\cftsubsubsecindent}{4.3em}          % 调整subsubsection标题相对于subsection标题的水平距离
+
+\setlength{\cftsecnumwidth}{3.0em}                      % 根据实际需求调整section序号的宽度
+\setlength{\cftsubsecnumwidth}{4.0em}                   % 根据实际需求调整subsection序号的宽度
+\setlength{\cftsubsubsecnumwidth}{1.6em}                % 根据实际需求调整subsubsection序号的宽度
+
+\renewcommand{\cftsecpresnum}{\hspace{0pt}}             % 减少section编号前的空白
+\renewcommand{\cftsubsecpresnum}{\hspace{0pt}}          % 减少subsection编号前的空白
+\renewcommand{\cftsubsubsecpresnum}{\hspace{0pt}}       % 减少subsubsection编号前的空白
+
+\renewcommand{\cftsecafterpnum}{\hspace{0.5em}}         % 调整section标题与页码之间的水平距离
+\renewcommand{\cftsubsecafterpnum}{\hspace{0.5em}}      % 调整subsection标题与页码之间的水平距离
+\renewcommand{\cftsubsubsecafterpnum}{\hspace{0.5em}}   % 调整subsubsection标题与页码之间的水平距离
+
+
+
+
+\ctexset{
+    % 一级标题
+    section = {
+        number = {\chinese{section}、},
+        format = {\syheitibold\zihao{-3}\raggedright}
+    },
+    % 二级标题
+    subsection={
+        format={\fzkaiti\zihao{4}\raggedright}, 
+        number = {（\chinese{subsection}）}, 
+    },
+    subsubsection={
+        format={\songti\bfseries\zihao{-4}\raggedright}, 
+        number = {\arabic{subsubsection}.},
+        indent = {24pt},
+    }
+}
+
+
+% \makeatletter
+% \renewcommand{\subsubsection}{%% 修改正文中小节的缩进
+%   \@startsection{subsubsection}{3}{2em}{-1.5ex \@plus -1ex \@minus -.2ex}{0.5ex \@plus .2ex}{\normalfont\large\bfseries}}
+% % 第三个参数（这里是2em）是正文缩进量，替换为所需的缩进量
+% \makeatother
+
+
+
+
+
+% 定义致谢环境
+\newenvironment{acknowledgments}{%
+    \clearpage
+    \newpage
+    \phantomsection                          % 设置 hyperref 目录链接正确指向
+    \addcontentsline{toc}{section}{致谢}      % 将“致谢”添加到目录
+    \section*{\centering{致谢}}               % 开启无编号的“致谢”节
+    \thispagestyle{empty} % 去掉当前页（图目录页）页码
+}
+
+
+% 定义附录环境
+\newenvironment{slsappendix}{%
+    \clearpage
+    \newpage
+    \phantomsection 
+    \addcontentsline{toc}{section}{附录} 
+    \section*{附录} 
+}
+
+
+% 参考文献
+% 标题小五号黑体加冒号
+% 内容小五号宋体
+\newcommand\makereferences{
+    \clearpage
+    \newpage
+    \phantomsection % 设置 hyperref 目录链接正确指向
+    \addcontentsline{toc}{section}{参考文献} % 将“参考文献”添加到目录
+    \nocite{*}
+    \printbibliography
+}
+
+
+
+
